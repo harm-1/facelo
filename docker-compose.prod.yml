@@ -1,0 +1,16 @@
+
+
+
+services:
+  prod_backend:
+    build:
+      context: ./backend
+      target: production
+      args:
+        <<: *build_args
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: production
+      FLASK_DEBUG: 0
+    <<: *default_volumes
