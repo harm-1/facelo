@@ -33,7 +33,7 @@ rm Pipfile
 # Add the package to the pipfile
 pipenv lock
 docker-compose build
-* Change database env's
+* Change database env vars
 docker-compose down
 docker volume rm facelo_db_data 
 docker-compose build

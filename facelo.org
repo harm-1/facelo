@@ -1338,12 +1338,86 @@ Ik moet waarschijnlijk uiteindelijk met images van variabele grootte gaan werken
 
 Ik weet niet zeker of ik het grid system kan gebruiken want ik moet misschien een canvas hebben om de animatie op te doen.
 Ja ik realiseer nu dat het grid systeem helemaal niet handig is.
-
 **** anime
 Ik ga proberen om anima toe te voegen aan mn project. Dit wordt waarschijnlijk een challenge op zichzelf.
 Er is iig vue-animejs
 
 Nu wil ik dat toevoegen, dat kan mee vue cli of met npm, ik ff uitzoeken hoe dat gaat. 
+Met "npm search vue-cli-plugin" kan ik de beschikbare vue cli plugins vinden.
+Vue cli is niet primair voor het toevoegen van plugins, dat is een extra feature. Ik denk gewoon omdat sommige plugins vaak gebruikt worden. Bij het toevoegen van een plugin moet je die aan npm toevoegen maar ook in de code. Ik denk dat vue cli dat gewoon automatiseerd.
+Ik moet iig met npm toevoeg want het kan niet met vlue cli (denk ik).
+
+Ik ga gewoon de instructie volgen.
+In de instructies gebruiken ze gewoon vue.use Dat is eigenlijk niet ideaal want maar 1 applicatie gebruikt het. https://stackoverflow.com/a/48067195/14743705
+Ik probeerde eerst om het alleen gebruikt te laten worden door de component, maar ik kreeg een unused warning. Maar bij deze plugin voeg je niet een compenent toe (wat de warning zou verhelpen) maar er wordt een class toegevoegd. Misschien is het daarom ook dat vue.use gebruiken.
+
+Any, ik heb de voorbeeld code erin gezet, maar ik zie niks.
+Ik was wat voorbeeld filmpljes erover aan het opzoeken en zag wat van transitions. Vue transition is denk ik gemaakt voor de overgang tussen webpages. Maar het kan denk ik ook gebruikt worden voor wat ik wil doen.
+
+Ik realiseer me alleen net dat ik toch geen animations wil. En dat is voornamelijk omdat k dat dan ook in android en ios moet doen. Ik ga gewoon een groene border doen, en dan dat de volgende images komen.
+
+Ik ga nu alles van anime js weer verwijderen. Ik zie nu dat de plugin niet werkte omdat ik het niet toe had gevoegd in main.js
+**** Simpler idea
+Ik maak het met groene en rode border en een fade.
+Ik kan nu alsnog wel het grid system gebruiken. En ik ga ook vue transitions gebruiken.
+
+Ik moet eerst het grid system gebruiken om het op de juiste positie te hebben. 
+Maar wat is de juiste positie. Ik weet niet hoe groot de images worden. Ik moet dat denk ik hier kiezen.
+
+Ik moet een maximale image size hebben, een minimale en een size voor elke bootstrap grid step.
+Of ik moet gewoon een groote image size in de database hebben en die kleiner maken.
+Ik geloof dat ik image scaling hoef te doen eigenlijk. Ik hoef niet het aantal pixels te veranderen om de grootte van het image te veranderen.
+
+De grootte van de image(aantal pixels) is dan totaal niet interressant. Ik wil ook niet usser restricten een belaalde grootte up te loaden.
+
+Ik ben dus weer aan het scalen met css, ik haat dit. Ik weet niet goed wat het moet zijn.
+Wil ik een een image dat een percentage van de grootte van het scherm? of dat het vast staat.
+
+Ik wil dat het altijd een percentage van het scherm is, ongeacht de grootte van het scherm of de zoom.
+Nee ik heb een standaard size in de db. Ik doe gewoon fluid, als de size niet goed is, kan je inzoomen. 
+**** adding the transition
+Ik wil een rode/groen marging/padding/border toevoegen on click die met een transition wegvaagt.
+Ik wil ook in een transition overgaan naar de volgende image.
+
+Ik moet dus een lijst van images-pairs klaar hebben staan. Ik moet nog uitzoeken hoeveel. Ik denk gewoon 5 ofzo.
+Misschien kan ik tussen 5 en 20 ofzo doen. En als de lijst weer bij 5 is een bulk ophalen.
+
+Dan heb ik gewoon:
+current
+next
+buffer
+
+En on click is er een transition van current naar next.
+Als ik dit ga implementeren heb ik voorbeeld images nodig.
+
+Ik heb de images, maar hoe ga ik die opslaan. 
+Eigenlijk wil ik de images ophalen uit de database. Dus dan moet ik testimages in de database hebben.
+Dat is opzich prima, dan ga ik nu aan de backend werken.
+*** Register
+Ik wil nu dat ik met de register page ook werkelijk dingen in de db zet.
+**** Testing
+Ik wil dat ik die dingen dan ook makkelijk kan verwijderen. Ik moet gewoon een doco shell command met iets van drop tables doen. Ik wil ook makkelijk testdata toevoegen. 
+
+Ik wil dus automatisch test_data invoeren zodat ik de dingen die ik maak makkelijk kan testen.
+Ik wil het ook makkelijk kunnen verwijderen. 
+
+Ik geloof dat realworld een andere database gebruikt voor test.
+Ik zou meerdere db's kunnen maken.
+- voor backend test
+- voor dummy data
+- werkelijk
+
+In de testfiles voeg ik gewoon data toe aan de db, dus zou dat net zo goed ergens anders kunnen doen. Alhoewel, misschien is dat helemaal niet nodig. Ik ga gewoon mn frontend testen en dan komt er data in de db, als ik iets fout doe kan ik gewoon de de db wissen. Ja ik weet dit vrij zeker.
+**** Begin
+Waar begin ik. Ik denk dat ik gewoon kijk hoe realworld het doet. En dan gewoon hetzelfde.
+
+Ik heb veel over de vue store gelezen want ik snapte veel dingen niet meer. Vuex is eigenlijk best we complex en js ook. Ik snap het niet en heb de frontend gemaakt. Ik check nu de backend of alles klopt. 
+
+Wat ik niet snap in de backend is dat de route soms /user is en soms /users.
+Ik heb het gegoogled en de meningen zijn verdeeld.
+Ik ga het veranderen naar /user en dan testen. Okee, door al mn documentatie en setup was dit echt super makkelijk.
+
+Mn backend verwacht nog een username dus ik moet de backend aanpassen. 
 
 ** Logging
 ** configuratie
@@ -1482,6 +1556,29 @@ En dan dat de data ook gewoon correct is.
 
 Nou als ik niet de absolute score laat zien, dan moet ik een correctie bij kunnen houden, dan gebruik ik die ook op de location.
 
+*** image size
+Als er een image wordt geupload, dan moet ik dat in een standaard vier kant later doen.
+En er moet een minimale size. De size waarin het wordt opgeslagen wordt een standaard size.
+
+En als iemand dan een image upload onder die size, dan kan ik upsamplen. Maar ik denk dat ik dat niet doe.
+Ik denk dat het het makkelijkst is om mensen gewoon een image van 1 size te laten uploaden.
+Probleem is dat ik die size niet te groot wil, en ik wil ook niet dat de images in vote te klein worden.
+Ik wil eigenlijk ook niet upscalen want dan verander je de image. Dan kunnen ze dan zelf doen.
+
+Ik denk dat upsamplen gewoon een slecht idee is. Als ik dat doe dan moet dat in de frontend en dan moeten ze bevestiging geven. 
+
+
+Welke size wordt dat? Ik kan misschien het google standaard formaat gebruiken. 
+
+*** Residence
+Als ik dingen per residence wil doen, dan moet ik weten waar mensen wonen ongeveer.
+Maar dat wil ik automatisch doen.
+
+Het kan wel, het kost geld, maar is te betalen. https://ipdata.co/pricing.html
+Ik kan gewoon bij registratie de locatie ophalen en later code schrijven om te kijken of het up to date is.
+
+Maar hoe zet ik dat dan in de db. Ik wil niet dat er een delay is. Misschien kan ik beter niet via ip doen. Ik denk in ieder geval niet in het begin. 
+
 ** Descriptions
 *** Database
 **** Master-test
@@ -1559,13 +1656,52 @@ mogelijke data:
 ** First version
 De eerste versie wordt minder complex dan opvolgende.
 Ik wil met 1 vraag beginnen en geen mooie data.
+
+Ik wil iig alles met locatie skippen. 
 *** Overview
 Alle master tests
 *** master test/question test active test
 Aangezien ik hier geen verschillende vragen heb noch mooie data laat zien is dit overbodig. 
-*** database
-Er zou in principe minder in de database kunnen, maar het maakt niet heel veel uit.
-Ik denk dat ik dezelfde database heb. 
+*** Database
+**** Master-test
+Img-url 
+Created-date
+Upload-date
+Age-in-foto?
+Number of votes
+
+question-tests
+person
+**** question-test
+master-test
+elo
+
+active tests
+challenges
+**** active-test
+Zodat je kan specificeren als je ergens specifiek voor wilt testen.
+
+test-age_range
+Date-started
+active
+limit
+number of votes
+
+question-test
+**** Challenge
+Judge
+Judge age at the time?
+date
+Winning_test
+Losing_test
+**** Person
+email
+password
+gender
+sexual preference
+Birth-date
+
+Master-tests
 
 * frontend
 Vue.js.

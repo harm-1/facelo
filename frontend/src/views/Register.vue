@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-container fluid style="max-width: 500px">
-            <b-form @submit="onSubmit" v-if="show">
+            <b-form @submit="onSubmit">
                 <b-form-group
                     id="input-group-1"
                     label="Email address:"
@@ -52,7 +52,7 @@
                         required
                     ></b-form-input>
                 </b-form-group>
-                
+
                 <b-form-group id="input-group-6" v-slot="{ ariaDescribedby }">
                     <b-form-checkbox-group
                         v-model="form.checked"
@@ -63,6 +63,11 @@
                     </b-form-checkbox-group>
                 </b-form-group>
 
+                <!-- TODO style -->
+                <ul v-if="errors" class="error-messages">
+                    <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
+                </ul>
+
                 <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
         </b-container>
@@ -70,16 +75,19 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { REGISTER } from "@/store/actions.type";
+
 export default {
+    name: "Register",
     data() {
         return {
-            show: true,
             gender_options: [
                 {value: 0, text: 'Please select an option'},
                 {value: 1, text: 'Male'},
                 {value: 2, text: 'Female'},
                 {value: 3, text: 'Other'}
-            ], 
+            ],
             form: {
                 email: '',
                 password: '',
@@ -88,11 +96,21 @@ export default {
             },
         }
     },
+    computed: {
+        ...mapState({
+            errors: state => state.auth.errors
+        })
+    },
     methods: {
-        onSubmit(event) {
-            event.preventDefault()
-            alert(JSON.stringify(this.form))
-        },
+        // onSubmit(event) {
+        //     event.preventDefault()
+        //     alert(JSON.stringify(this.form))
+        // },
+        onSubmit() {
+            this.$store
+                .dispatch(REGISTER, this.form)
+                .then(() => this.$router.push({ name: "home" }));
+        }
     }
-  }
+}
 </script>
