@@ -1,41 +1,52 @@
 * docker commands
 ** Start in development/production mode.
-docker-compose up frontend
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up frontend
+   docker-compose up frontend
+   docker-compose -f docker-compose.yml -f docker-compose.prod.yml up frontend
 ** start database/backend/frontend
-docker-compose up database
-docker-compose up backend
-docker-compose up frontend
+   docker-compose up database
+   docker-compose up backend
+   docker-compose up frontend
 ** Open a shell in the running container. 
-docker exec -it facelo_backend_1 /bin/bash
+   docker exec -it facelo_backend_1 /bin/bash
 ** Run commands using the flask CLI:
-docker-compose run --rm manage <<command>>
-docker-compose run --rm manage flask shell
-docker-compose run --rm manage flask db init
-docker-compose run --rm manage flask db migrate
-docker-compose run --rm manage flask db upgrade
-docker-compose run --rm manage flask test
-docker-compose run --rm manage flask lint
-docker-compose run --rm manage pytest tests/
+   docker-compose run --rm manage <<command>>
+   docker-compose run --rm manage flask shell
+   docker-compose run --rm manage flask db init
+   docker-compose run --rm manage flask db migrate
+   docker-compose run --rm manage flask db upgrade
+   docker-compose run --rm manage flask test
+   docker-compose run --rm manage flask lint
+   docker-compose run --rm manage pytest tests/
 ** Connect to the database from the cli
-fooo@bar:~$ docker-compose exec db_dev mysql -uroot -pexample
+   fooo@bar:~$ docker-compose exec db_dev mysql -uroot -pexample
 ** Rebuild the image when dependencies change or the Dockerfile is modified. 
-$ docker-compose build
+   $ docker-compose build
 
 
 * Pipenv
 ** Start pipenv
-pipenv shell
+   pipenv shell
 ** remove accidental shell
-pipenv --rm
-rm Pipfile
+   pipenv --rm
+   rm Pipfile
 ** Install in pipenv
-# Add the package to the pipfile
-pipenv lock
-docker-compose build
+   # Add the package to the pipfile
+   pipenv lock
+   docker-compose build
 * Change database env vars
-docker-compose down
-docker volume rm facelo_db_data 
-docker-compose build
-docker-compose up ...
+  docker-compose down
+  docker volume rm facelo_db_data 
+  docker-compose build
+  docker-compose up ...
+* Install
+  sudo apt update && sudo apt install -y docker, docker-compose, default-libmysqlclient-dev
+  sudo systemctl enable docker
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
+  log out and in
+** Errors
+   Ik had een error omdat ik het op een nieuw os instelleer.
+   Dan verandered de python pibraries niet door pipenv, maar de apt packages wel.
+   Ik kreeg een error die ik niet snapte en moest de venv verwijderen met: pipenv --rm
+   en dan in de pipfile de python versie naar de laatste versie zetten. En dan pipenv lock
 
