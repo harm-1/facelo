@@ -22,7 +22,6 @@
 ** Rebuild the image when dependencies change or the Dockerfile is modified. 
    $ docker-compose build
 
-
 * Pipenv
 ** Start pipenv
    pipenv shell
@@ -30,9 +29,10 @@
    pipenv --rm
    rm Pipfile
 ** Install in pipenv
-   # Add the package to the pipfile
-   pipenv lock
+   # add to pipfile
+   docker-compose run --rm manage pipenv lock
    docker-compose build
+
 * Change database env vars
   docker-compose down
   docker volume rm facelo_db_data 
