@@ -3,3 +3,5 @@
 /facelo.org
 /.#facelo.org
 **/__pycache__/
+*.el
+*.sqlite3
