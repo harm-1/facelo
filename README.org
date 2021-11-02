@@ -16,6 +16,7 @@
    docker-compose run --rm manage flask db upgrade
    docker-compose run --rm manage flask test
    docker-compose run --rm manage flask lint
+   docker-compose run --rm manage monkeytype run flask run --host 0.0.0.0
    docker-compose run --rm manage pytest tests/
 ** Connect to the database from the cli
    fooo@bar:~$ docker-compose exec db_dev mysql -uroot -pexample
