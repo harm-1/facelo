@@ -39,7 +39,7 @@ services:
     volumes:
       - type: bind
         source: ./backend
-        target:  /app
+        target:  /backend
 
   manage:
     build:
@@ -58,7 +58,7 @@ services:
     volumes:
       - type: bind
         source: ./backend
-        target:  /app
+        target:  /backend
 
   frontend:
     build:
