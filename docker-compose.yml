@@ -1,4 +1,4 @@
-version: "3.6"
+version: "3.7"
 
 x-build-args: &build_args
   PYTHON_IMAGE_VERSION: slim-buster
@@ -40,6 +40,10 @@ services:
       - type: bind
         source: ./backend
         target:  /backend
+      - type: volume
+        source: images
+        target: /backend/images
+
 
   manage:
     build:
@@ -59,6 +63,9 @@ services:
       - type: bind
         source: ./backend
         target:  /backend
+      - type: volume
+        source: images
+        target: /backend/images
 
   frontend:
     build:
@@ -79,3 +86,5 @@ services:
 
 volumes:
   db_data:
+  images:
+
