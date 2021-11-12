@@ -5,3 +5,4 @@
 **/__pycache__/
 *.el
 *.sqlite3
+/example_images/
