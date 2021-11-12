@@ -41,8 +41,11 @@ services:
         source: ./backend
         target:  /backend
       - type: volume
-        source: images
-        target: /backend/images
+        source: testing_images
+        target: /backend/testing_images
+      - type: bind
+        source: ./example_images
+        target: /backend/example_images
 
 
   manage:
@@ -64,8 +67,11 @@ services:
         source: ./backend
         target:  /backend
       - type: volume
-        source: images
-        target: /backend/images
+        source: testing_images
+        target: /backend/testing_images
+      - type: bind
+        source: ./example_images
+        target: /backend/example_images
 
   frontend:
     build:
@@ -86,5 +92,5 @@ services:
 
 volumes:
   db_data:
-  images:
+  testing_images:
 
