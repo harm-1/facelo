@@ -39,13 +39,13 @@ services:
     volumes:
       - type: bind
         source: ./backend
-        target:  /backend
+        target:  /facelo/backend
       - type: volume
         source: testing_images
-        target: /backend/testing_images
+        target: /facelo/testing_images
       - type: bind
         source: ./example_images
-        target: /backend/example_images
+        target: /facelo/example_images
 
 
   manage:
@@ -65,13 +65,13 @@ services:
     volumes:
       - type: bind
         source: ./backend
-        target:  /backend
+        target:  /facelo/backend
       - type: volume
         source: testing_images
-        target: /backend/testing_images
+        target: /facelo/testing_images
       - type: bind
         source: ./example_images
-        target: /backend/example_images
+        target: /facelo/example_images
 
   frontend:
     build:
