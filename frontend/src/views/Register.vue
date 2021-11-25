@@ -77,6 +77,7 @@
 <script>
 import { mapState } from "vuex";
 import { REGISTER } from "@/store/actions.type";
+import Vue from 'vue';
 
 export default {
     name: "Register",
@@ -107,6 +108,8 @@ export default {
         //     alert(JSON.stringify(this.form))
         // },
         onSubmit() {
+            Vue.prototype.$log = console.log
+            console.log("register file");
             this.$store
                 .dispatch(REGISTER, this.form)
                 .then(() => this.$router.push({ name: "home" }));

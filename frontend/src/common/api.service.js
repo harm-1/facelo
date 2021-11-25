@@ -29,8 +29,7 @@ const ApiService = {
     },
 
     post(resource, params) {
-        console.log(Vue.axios.defaults.baseURL)
-        console.log(Vue.axios.defaults.url)
+        console.log("api,service");
         return Vue.axios.post(`${resource}`, params);
     },
 

@@ -22,6 +22,8 @@
    fooo@bar:~$ docker-compose exec db_dev mysql -uroot -pexample
 ** Rebuild the image when dependencies change or the Dockerfile is modified. 
    $ docker-compose build
+** Rebuild with newer images
+   docker-compose build --pull
 
 * Pipenv
 ** Start pipenv
@@ -33,6 +35,11 @@
    # add to pipfile
    docker-compose run --rm manage pipenv lock
    docker-compose build
+* Package.jsonn
+** Upgrade node/npm to newest version
+   docker-compose build --pull
+** Upgrade all packages to the newest version
+    
 
 * Change database env vars
   docker-compose down
