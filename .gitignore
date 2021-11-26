@@ -6,3 +6,4 @@
 *.el
 *.sqlite3
 /example_images/
+/frontend_old/
