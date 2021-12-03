@@ -37,7 +37,7 @@
                 <b-form-group id="input-group-4" label="Sexual preference:" label-for="input-4">
                     <b-form-select
                         id="input-4"
-                        v-model="form.sexual_preferemce"
+                        v-model="form.sexual_preference"
                         :options="gender_options"
                         required
                     ></b-form-select>
@@ -64,10 +64,10 @@
                 </b-form-group>
 
                 <!-- TODO style -->
-                <ul v-if="errors" class="error-messages">
-                    <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
-                </ul>
-
+                <!-- <ul v-if="errors" class="error-messages">
+                     <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
+                     </ul>
+                -->
                 <b-button type="submit" variant="primary">Submit</b-button>
             </b-form>
         </b-container>
@@ -75,45 +75,59 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { REGISTER } from "@/store/actions.type";
-import Vue from 'vue';
+import { mapState } from 'vuex'
+import Vue from 'vue'
 
 export default {
-    name: "Register",
-    data() {
-        return {
-            gender_options: [
-                {value: 0, text: 'Please select an option'},
-                {value: 1, text: 'Male'},
-                {value: 2, text: 'Female'},
-                {value: 3, text: 'Other'}
-            ],
-            form: {
-                email: '',
-                password: '',
-                gender: null,
-                terms_accepted: false
-            },
-        }
-    },
-    computed: {
-        ...mapState({
-            errors: state => state.auth.errors
-        })
-    },
-    methods: {
-        // onSubmit(event) {
-        //     event.preventDefault()
-        //     alert(JSON.stringify(this.form))
-        // },
-        onSubmit() {
-            Vue.prototype.$log = console.log
-            console.log("register file");
-            this.$store
-                .dispatch(REGISTER, this.form)
-                .then(() => this.$router.push({ name: "home" }));
-        }
+  name: 'Register',
+  data () {
+    return {
+      gender_options: [
+        { value: 0, text: 'Please select an option' },
+        { value: 1, text: 'Male' },
+        { value: 2, text: 'Female' },
+        { value: 3, text: 'Other' }
+      ],
+      form: {
+        email: 'foo@bar.com',
+        password: 'foobar',
+        gender: 1,
+        sexual_preference: 2,
+        age: 27,
+        terms_accepted: true
+      }
     }
+  },
+  computed: {
+    ...mapState({
+      errors: state => state.auth.errors
+    })
+  },
+  methods: {
+    // onSubmit(event) {
+    //     event.preventDefault()
+    //     alert(JSON.stringify(this.form))
+    // },
+
+    // onSubmit() {
+    //     Vue.prototype.$log = console.log
+    //     console.log("register file");
+    //     this.$store
+    //         .dispatch(REGISTER, this.form)
+    //         .then(() => this.$router.push({ name: "home" }));
+    // }
+    // onSubmit () {
+    //   Vue.prototype.$log = console.log
+    //   console.log('register file')
+    //   this.$store
+    //     .dispatch(REGISTER, this.form)
+    //     .then(() => this.$router.push({ name: 'home' }))
+    // },
+    onSubmit () {
+      this.axios.post('http://127.0.0.1:5000/user').then((response) => {
+        console.log(response.data)
+      })
+    }
+  }
 }
 </script>
