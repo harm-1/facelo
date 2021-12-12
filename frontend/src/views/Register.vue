@@ -43,23 +43,19 @@
                     ></b-form-select>
                 </b-form-group>
 
-                <b-form-group id="input-group-5" label="Age:" label-for="input-5">
-                    <b-form-input
-                        id="input-5"
-                        v-model="form.age"
-                        type="number"
-                        placeholder="Enter age"
-                        required
-                    ></b-form-input>
+                <b-form-group id="input-group-5" label="Birth day:" label-for="input-5">
+                  <datepicker
+                    v-model="form.birth_day"
+                    :minimumView="day"
+                  />
                 </b-form-group>
 
                 <b-form-group id="input-group-6" v-slot="{ ariaDescribedby }">
                     <b-form-checkbox-group
-                        v-model="form.checked"
                         id="checkboxes-6"
                         :aria-describedby="ariaDescribedby"
                     >
-                        <b-form-checkbox v-model="form.terms_accepted">I accept the terms</b-form-checkbox>
+                        <b-form-checkbox :value="form.terms_accepted">I accept the terms</b-form-checkbox>
                     </b-form-checkbox-group>
                 </b-form-group>
 
@@ -76,10 +72,14 @@
 
 <script>
 import { mapState } from 'vuex'
-import Vue from 'vue'
+import { ref } from 'vue'
+import Datepicker from 'vue3-datepicker'
 
 export default {
   name: 'Register',
+  components: {
+    Datepicker
+  },
   data () {
     return {
       gender_options: [
@@ -88,12 +88,14 @@ export default {
         { value: 2, text: 'Female' },
         { value: 3, text: 'Other' }
       ],
+      now: new Date(),
+      show: true,
       form: {
         email: 'foo@bar.com',
         password: 'foobar',
         gender: 1,
         sexual_preference: 2,
-        age: 27,
+        birth_day: new Date(1995, 11, 17),
         terms_accepted: true
       }
     }
@@ -104,27 +106,12 @@ export default {
     })
   },
   methods: {
-    // onSubmit(event) {
-    //     event.preventDefault()
-    //     alert(JSON.stringify(this.form))
-    // },
-
-    // onSubmit() {
-    //     Vue.prototype.$log = console.log
-    //     console.log("register file");
-    //     this.$store
-    //         .dispatch(REGISTER, this.form)
-    //         .then(() => this.$router.push({ name: "home" }));
-    // }
-    // onSubmit () {
-    //   Vue.prototype.$log = console.log
-    //   console.log('register file')
-    //   this.$store
-    //     .dispatch(REGISTER, this.form)
-    //     .then(() => this.$router.push({ name: 'home' }))
-    // },
     onSubmit () {
-      this.axios.post('http://127.0.0.1:5000/user').then((response) => {
+      console.log(this.form)
+      this.form.birth_day = this.form.birth_day.toISOString().split('T')[0]
+      console.log(this.form)
+      this.axios.post('http://127.0.0.1:5000/user', this.form
+      ).then((response) => {
         console.log(response.data)
       })
     }
