@@ -24,6 +24,15 @@
    $ docker-compose build
 ** Rebuild with newer images
    docker-compose build --pull
+** Running the backend with pdb
+   docker-compose up -d manage && docker attach facelo_manage_1
+   doco run --rm --service-ports manage
+*** about
+    the first one is necesary when the frontend service is started as well.
+    It starts the container with right name in that case.
+
+    The second one is simpeler and more elegant because its 1 command.
+    
 
 * Pipenv
 ** Start pipenv
