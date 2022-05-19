@@ -44,33 +44,6 @@ services:
         target: /opt/venv
 
 
-  manage:
-    build:
-      context: ./backend/
-      target: development
-    depends_on:
-      - database
-    ports:
-      - "127.0.0.1:5000:5000"
-    env_file: .env
-    environment:
-    #   FLASK_ENV: development
-    #   FLASK_DEBUG: 1
-      FLASK_ENV: production
-      FLASK_DEBUG: 0
-    stdin_open: true
-    tty: true
-    volumes:
-      - type: bind
-        source: ./backend
-        target:  /facelo/backend
-      - type: volume
-        source: testing_images
-        target: /facelo/testing_images
-      - type: bind
-        source: ./example_images
-        target: /facelo/example_images
-
   frontend:
     build:
       context: ./frontend/
@@ -86,20 +59,6 @@ services:
         target:  /app
         read_only: true
 
-  f_manage:
-    build:
-      context: ./frontend/
-      target: development
-    depends_on:
-      - backend
-    ports:
-      - "8080:8080"
-    stdin_open: true
-    tty: true
-    volumes:
-      - type: bind
-        source: ./frontend
-        target:  /app
 
 volumes:
   db_data:

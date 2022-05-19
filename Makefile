@@ -36,6 +36,13 @@ pipenv-lock:
 	--mount type=bind,source=$(backend_dir),target=$(workdir) \
 	$(builder_image) pipenv lock
 
+db-cli:
+	$(DC) run --rm database mysql -ufacelo -ppassword
+
+# shell, db (migrate/upgarde)
+flask:
+	docker-compose run --rm backend flask $(c)
+
 up:
 	$(DC) up $(service)
 
