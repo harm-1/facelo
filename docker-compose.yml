@@ -1,10 +1,5 @@
 version: "3.7"
 
-x-build-args: &build_args
-  PYTHON_IMAGE_VERSION: slim-buster
-  NODE_IMAGE_VERSION: slim
-
-
 services:
   database:
     image: mysql
@@ -26,8 +21,6 @@ services:
     build:
       context: ./backend
       target: development
-      args:
-        <<: *build_args
     depends_on:
       - database
     ports:
@@ -46,14 +39,15 @@ services:
       - type: bind
         source: ./example_images
         target: /facelo/example_images
+      - type: bind
+        source: ./backend/.venv
+        target: /opt/venv
 
 
   manage:
     build:
       context: ./backend/
       target: development
-      args:
-        <<: *build_args
     depends_on:
       - database
     ports:
@@ -81,8 +75,6 @@ services:
     build:
       context: ./frontend/
       target: development
-      args:
-        <<: *build_args
     depends_on:
       # - backend
       - manage
@@ -98,8 +90,6 @@ services:
     build:
       context: ./frontend/
       target: development
-      args:
-        <<: *build_args
     depends_on:
       - backend
     ports:

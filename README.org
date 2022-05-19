@@ -1,11 +1,4 @@
 * docker commands
-** Start in development/production mode.
-   docker-compose up frontend
-   docker-compose -f docker-compose.yml -f docker-compose.prod.yml up frontend
-** start database/backend/frontend
-   docker-compose up database
-   docker-compose up backend
-   docker-compose up frontend
 ** Open a shell in the running container. 
    docker exec -it facelo_backend_1 /bin/bash
 ** Run commands using the flask CLI:
