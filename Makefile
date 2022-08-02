@@ -10,6 +10,7 @@ workdir := /facelo
 
 init: build mkdir-venv create-venv
 
+# -------------------------backend stuff
 mkdir-venv:
 	mkdir -p $(source_venv)
 
@@ -36,22 +37,39 @@ pipenv-lock:
 	--mount type=bind,source=$(backend_dir),target=$(workdir) \
 	$(builder_image) pipenv lock
 
+# (init/migrate/upgrade)
+flask-db:
+	docker-compose run --rm backend flask db $(c)
+
+flask-shell:
+	docker-compose run --rm backend flask shell
+
+# ----------------------------------flutter stuff
+flutter-chrome:
+	$(DC) up -d backend
+	(cd flutter_app ; flutter run -d chrome )
+
+# --------------------------------db stuff
 db-cli:
-	$(DC) run --rm database mysql -ufacelo -ppassword
+	$(D) exec -it facelo_database_1 mysql -ufacelo -ppassword
+	# $(DC) run --rm database mysql
 
-# shell, db (migrate/upgarde)
-flask:
-	docker-compose run --rm backend flask $(c)
-
+# ----------------------------------docker stuff 
 up:
-	$(DC) up $(service)
+	$(DC) up -d $(service)
 
 down:
 	$(DC) down $(service)
 
+restart:
+	$(DC) restart $(service)
+
 build:
 	docker build --target builder --tag $(builder_image) $(backend_dir)
 	$(DC) build
+
+logs:
+	$(DC) logs -f $(s)
 
 sh:
 	$(DC) run --rm $(service) /bin/bash
