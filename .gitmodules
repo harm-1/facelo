@@ -1,0 +1,3 @@
+[submodule "facelo-backend"]
+	path = facelo-backend
+	url = git@github.com:harm-1/facelo-backend.git
