@@ -4,3 +4,6 @@
 [submodule "facelo-frontend"]
 	path = facelo-frontend
 	url = git@github.com:harm-1/facelo-frontend.git
+[submodule "facelo-flutter"]
+	path = facelo-flutter
+	url = git@github.com:harm-1/facelo-flutter.git
