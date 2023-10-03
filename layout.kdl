@@ -1,0 +1,20 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+
+	pane split_direction="vertical" {
+        pane stacked=true {
+            pane {
+                 command "make"
+                 args "up-attach" "s=backend"
+                 close_on_exit false
+            }
+        }
+		pane
+		pane
+	}
+    pane size=2 borderless=true {
+         plugin location="zellij:status-bar"
+    }
+}
