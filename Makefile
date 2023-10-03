@@ -1,7 +1,7 @@
 DC := docker-compose
 D := docker
 pwd = $(shell pwd)
-source_venv := $(pwd)/backend/.venv
+source_venv := $(pwd)/backend/venv
 target_venv := /opt/venv
 builder_image := facelo:builder
 backend_dir := $(pwd)/backend
@@ -44,6 +44,9 @@ flask-db:
 flask-shell:
 	docker-compose run --rm backend flask shell
 
+flask-seed:
+	docker-compose run --rm backend flask seed
+
 # ----------------------------------flutter stuff
 flutter-chrome:
 	$(DC) up -d backend
@@ -51,18 +54,21 @@ flutter-chrome:
 
 # --------------------------------db stuff
 db-cli:
-	$(D) exec -it facelo_database_1 mysql -ufacelo -ppassword
+	$(D	) exec -it facelo-database-1 mysql -ufacelo -ppassword facelo_testing
 	# $(DC) run --rm database mysql
 
 # ----------------------------------docker stuff 
 up:
-	$(DC) up -d $(service)
+	$(DC) up -d $(s)
+
+up-attach:
+	$(DC) up $(s)
 
 down:
-	$(DC) down $(service)
+	$(DC) down $(s)
 
 restart:
-	$(DC) restart $(service)
+	$(DC) restart $(s)
 
 build:
 	docker build --target builder --tag $(builder_image) $(backend_dir)
@@ -72,7 +78,7 @@ logs:
 	$(DC) logs -f $(s)
 
 sh:
-	$(DC) run --rm $(service) /bin/bash
+	$(DC) run --rm $(s) /bin/bash
 
 clean: down
 	sudo rm -Rf $(source_venv)

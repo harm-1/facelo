@@ -16,8 +16,9 @@ services:
         source: ./my.cnf
         target: /etc/my.cnf
         read_only: true
-        
+
   backend:
+    container_name: BE
     build:
       context: ./backend
       target: development
@@ -28,7 +29,7 @@ services:
     env_file: .env
     environment:
       FLASK_ENV: development
-      FLASK_DEBUG: 0
+      FLASK_DEBUG: 1
     volumes:
       - type: bind
         source: ./backend
@@ -40,23 +41,23 @@ services:
         source: ./example_images
         target: /facelo/example_images
       - type: bind
-        source: ./backend/.venv
+        source: ./backend/venv
         target: /opt/venv
 
 
-  frontend:
-    build:
-      context: ./frontend/
-      target: development
-    depends_on:
-      - backend
-    ports:
-      - "127.0.0.1:8080:8080"
-    volumes:
-      - type: bind
-        source: ./frontend
-        target:  /app
-        read_only: true
+  # frontend:
+  #   build:
+  #     context: ./frontend/
+  #     target: development
+  #   depends_on:
+  #     - backend
+  #   ports:
+  #     - "127.0.0.1:8080:8080"
+  #   volumes:
+  #     - type: bind
+  #       source: ./frontend
+  #       target:  /app
+  #       read_only: true
 
 
 volumes:
