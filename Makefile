@@ -1,4 +1,4 @@
-DC := docker-compose
+DC := docker compose
 D := docker
 pwd = $(shell pwd)
 source_venv := $(pwd)/backend/venv
@@ -39,13 +39,13 @@ pipenv-lock:
 
 # (init/migrate/upgrade)
 flask-db:
-	docker-compose run --rm backend flask db $(c)
+	$(DC) run --rm backend flask db $(c)
 
 flask-shell:
-	docker-compose run --rm backend flask shell
+	$(DC) run --rm backend flask shell
 
 flask-seed:
-	docker-compose run --rm backend flask seed
+	$(DC) run --rm backend flask seed
 
 # ----------------------------------flutter stuff
 flutter-chrome:
@@ -57,7 +57,7 @@ db-cli:
 	$(D	) exec -it facelo-database-1 mysql -ufacelo -ppassword facelo_testing
 	# $(DC) run --rm database mysql
 
-# ----------------------------------docker stuff 
+# ----------------------------------docker stuff
 up:
 	$(DC) up -d $(s)
 
