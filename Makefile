@@ -11,6 +11,10 @@ workdir := /facelo
 init: build mkdir-venv create-venv
 
 # -------------------------backend stuff
+pip-reset:
+	rm -Rf $(source_venv)
+	mkdir -p $(source_venv)
+
 mkdir-venv:
 	mkdir -p $(source_venv)
 
