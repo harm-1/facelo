@@ -12,7 +12,7 @@ init: build mkdir-venv create-venv
 
 # -------------------------backend stuff
 pip-reset:
-	rm -Rf $(source_venv)
+	sudo rm -Rf $(source_venv)
 	mkdir -p $(source_venv)
 
 mkdir-venv:
@@ -29,11 +29,17 @@ pipenv-shell:
 	--mount type=bind,source=$(backend_dir),target=$(workdir) \
 	$(builder_image) bash
 
-pipenv-install-dev:
+pipenv-sync-dev:
+	$(D) run --rm -it \
+	--mount type=bind,source=$(source_venv),target=$(target_venv) \
+	--mount type=bind,source=$(	backend_dir),target=$(workdir) \
+	$(builder_image) pipenv sync --dev $(p)
+
+pipenv-update:
 	$(D) run --rm -it \
 	--mount type=bind,source=$(source_venv),target=$(target_venv) \
 	--mount type=bind,source=$(backend_dir),target=$(workdir) \
-	$(builder_image) pipenv install --dev $(p)
+	$(builder_image) pipenv update $(p)
 
 pipenv-lock:
 	$(D) run --rm -it \
