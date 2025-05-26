@@ -3,80 +3,29 @@ D := "docker"
 pwd := env_var('PWD')
 source_venv := pwd + "/backend/venv"
 target_venv := "/opt/venv"
-builder_image := "facelo:builder"
+backend_image := "facelo:development"
 backend_dir := pwd + "/backend"
 frontend_dir := pwd + "/frontend"
 workdir := "/facelo"
 
-init: build mkdir-venv create-venv
+init: build
 
 test:
   echo {{D}}
 
+
+exec-sh service:
+    {{DC}} exec -it {{service}} sh
+
+run-sh service:
+    {{DC}} run -it --rm {{service}} sh
+
+
 # -------------------------backend stuff
-pip-reset:
-	sudo rm -Rf {{source_venv}}
-	mkdir -p {{source_venv}}
-
-mkdir-venv:
-	mkdir -p {{source_venv}}
-
-create-venv:
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	{{builder_image}} python3 -m venv {{target_venv}}
-
-pipenv-shell:
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	--mount type=bind,source={{backend_dir}},target={{workdir}} \
-	{{builder_image}} bash
-
-pipenv-sync-dev package='':
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	--mount type=bind,source={{	backend_dir}},target={{workdir}} \
-	{{builder_image}} pipenv sync --dev {{package}}
-
-pipenv-update package='':
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	--mount type=bind,source={{backend_dir}},target={{workdir}} \
-	{{builder_image}} pipenv update {{package}}
-
-pipenv-lock:
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	--mount type=bind,source={{backend_dir}},target={{workdir}} \
-	{{builder_image}} pipenv lock
-
-
-poetry-shell:
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	--mount type=bind,source={{backend_dir}},target={{workdir}} \
-	{{builder_image}} bash
-
-poetry-update:
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	--mount type=bind,source={{backend_dir}},target={{workdir}} \
-	{{builder_image}} poetry update
-
-poetry-lock:
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	--mount type=bind,source={{backend_dir}},target={{workdir}} \
-	{{builder_image}} poetry lock --directory={{workdir}}/backend
-
 poetry-install:
-	{{D}} run --rm -it \
-	--mount type=bind,source={{source_venv}},target={{target_venv}} \
-	--mount type=bind,source={{backend_dir}},target={{workdir}} \
-	{{builder_image}} poetry install --directory={{workdir}}/backend
+    # {{DC}} run --rm backend poetry install --with dev --sync
+    {{DC}} run --rm backend poetry install --extras "dev"
 
-
-# (init/migrate/upgrade}}
 flask-db command:
 	{{DC}} run --rm backend flask db {{command}}
 
@@ -110,7 +59,7 @@ restart service='':
 	{{DC}} restart {{service}}
 
 build:
-	docker build --target builder --tag {{builder_image}} {{backend_dir}}
+	docker build --target builder --tag {{backend_image}} {{backend_dir}}
 	{{DC}} build
 
 logs service='':

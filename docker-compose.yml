@@ -40,9 +40,6 @@ services:
       - type: bind
         source: ./example_images
         target: /facelo/example_images
-      - type: bind
-        source: ./backend/venv
-        target: /opt/venv
 
 
   # frontend:
